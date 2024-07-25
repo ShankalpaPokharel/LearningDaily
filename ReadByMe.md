@@ -211,7 +211,6 @@ fetch(url, {
 
 </details>
 
-
 <details>
 <summary><b>Callback Function and Callback Hell</b></summary>
 
@@ -225,13 +224,11 @@ Consider the `setTimeout` function, which executes a callback after a specified 
 
 ```javascript
 function greet() {
-  console.log('Hello, World!');
+    console.log("Hello, World!");
 }
 
 setTimeout(greet, 2000); // 'greet' is the callback function
-
 ```
-
 
 ### Callback Hell
 
@@ -240,50 +237,51 @@ Callback hell, also known as "Pyramid of Doom," refers to the situation in which
 #### Example
 
 ```javascript
-login(user, function(err, userInfo) {
-  if (err) {
-    console.error(err);
-  } else {
-    fetchPosts(userInfo, function(err, posts) {
-      if (err) {
+login(user, function (err, userInfo) {
+    if (err) {
         console.error(err);
-      } else {
-        fetchComments(posts, function(err, comments) {
-          if (err) {
-            console.error(err);
-          } else {
-            console.log('All comments:', comments);
-          }
+    } else {
+        fetchPosts(userInfo, function (err, posts) {
+            if (err) {
+                console.error(err);
+            } else {
+                fetchComments(posts, function (err, comments) {
+                    if (err) {
+                        console.error(err);
+                    } else {
+                        console.log("All comments:", comments);
+                    }
+                });
+            }
         });
-      }
-    });
-  }
+    }
 });
 ```
+
 ### Solutions
 
-####  Using Promises
+#### Using Promises
 
 ```js
 login(user)
-  .then(userInfo => fetchPosts(userInfo))
-  .then(posts => fetchComments(posts))
-  .then(comments => console.log('All comments:', comments))
-  .catch(err => console.error(err));
+    .then((userInfo) => fetchPosts(userInfo))
+    .then((posts) => fetchComments(posts))
+    .then((comments) => console.log("All comments:", comments))
+    .catch((err) => console.error(err));
 ```
 
 #### Using Async/Await
 
 ```js
 async function processUser() {
-  try {
-    const userInfo = await login(user);
-    const posts = await fetchPosts(userInfo);
-    const comments = await fetchComments(posts);
-    console.log('All comments:', comments);
-  } catch (err) {
-    console.error(err);
-  }
+    try {
+        const userInfo = await login(user);
+        const posts = await fetchPosts(userInfo);
+        const comments = await fetchComments(posts);
+        console.log("All comments:", comments);
+    } catch (err) {
+        console.error(err);
+    }
 }
 
 processUser();
@@ -291,9 +289,103 @@ processUser();
 
 </details>
 
+## React
 
 
+<details>
+<summary><b>`useMemo` and `useCallback`</b></summary>
 
+Memoization is a specific form of optimization where the results of function calls are cached based on the input arguments. This means that when the same function is called with the same arguments, instead of recalculating the result, the stored (cached) result is returned.
+
+## `useMemo` vs `useCallback` in React
+
+In React, `useMemo` and `useCallback` are hooks that help optimize performance by memoizing values and functions. Here's a breakdown of the differences and when to use each:
+
+### `useMemo`
+
+-   **Purpose:** `useMemo` is used to memoize the result of a function call. It prevents expensive calculations from being re-executed on every render if the dependencies haven't changed.
+-   **Usage:** It returns a memoized value.
+-   **Syntax:**
+    ```javascript
+    const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+    ```
+    Here, `computeExpensiveValue(a, b)` will only be recomputed if either `a` or `b` changes.
+
+### `useCallback`
+
+-   **Purpose:** `useCallback` is used to memoize a function itself. It prevents the function from being recreated on every render if the dependencies haven't changed. This is useful when passing callbacks to child components, as it prevents unnecessary re-renders.
+-   **Usage:** It returns a memoized function.
+-   **Syntax:**
+    ```javascript
+    const memoizedCallback = useCallback(() => {
+        doSomething(a, b);
+    }, [a, b]);
+    ```
+    The function `doSomething(a, b)` will only be recreated if either `a` or `b` changes.
+
+### Key Differences
+
+1. **Output:**
+
+    - `useMemo` returns a memoized value.
+    - `useCallback` returns a memoized function.
+
+2. **Use Case:**
+    - Use `useMemo` when you want to memoize the result of a computation to avoid recalculating it unnecessarily.
+    - Use `useCallback` when you want to prevent function re-creation, especially when passing functions as props to child components that rely on reference equality to avoid re-renders.
+
+### Example
+
+```js
+import React, { useMemo, useCallback } from "react";
+
+function MyComponent({ list }) {
+    // useMemo to memoize an expensive computation
+    const sortedList = useMemo(() => {
+        return list.sort((a, b) => a - b);
+    }, [list]);
+
+    // useCallback to memoize a function
+    const handleClick = useCallback(() => {
+        console.log("Clicked!");
+    }, []);
+
+    return (
+        <div>
+            <ul>
+                {sortedList.map((item) => (
+                    <li key={item}>{item}</li>
+                ))}
+            </ul>
+            <button onClick={handleClick}>Click me</button>
+        </div>
+    );
+}
+```
+
+In this example, `sortedList` is memoized using `useMemo` to avoid sorting the list on every render. `handleClick` is memoized using `useCallback` to avoid creating a new function on every render.
+
+</details>
+
+<details>
+<summary><b>Arrow Functions	Traditional Functions</b></summary>
+
+| Feature                | Arrow Functions                                                                                                                                                              | Traditional Functions                                                                                                                                                                                        |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Syntax**             | `const add = (a, b) => a + b;`                                                                                                                                               | `function add(a, b) { return a + b; }`                                                                                                                                                                       |
+| **Example**            | `const add = (a, b) => a + b; console.log(add(2, 3)); // 5`                                                                                                                  | `function add(a, b) { return a + b; } console.log(add(2, 3)); // 5`                                                                                                                                          |
+| **`arguments` Object** | No own `arguments` object; inherits from scope                                                                                                                               | Has its own `arguments` object                                                                                                                                                                               |
+| **Example**            | `const showArgs = () => { console.log(arguments); // ReferenceError: arguments is not defined }; showArgs(1, 2, 3);`                                                         | `function showArgs() { console.log(arguments); // Logs all arguments passed } showArgs(1, 2, 3); // Logs [1, 2, 3]`                                                                                          |
+| **Implicit Return**    | Can implicitly return a value if single expression                                                                                                                           | Requires explicit `return` statement                                                                                                                                                                         |
+| **Example**            | `const square = x => x * x; console.log(square(4)); // 16`                                                                                                                   | Traditional functions require explicit `return`, so this feature does not apply.                                                                                                                             |
+| **Explicit Return**    | Requires curly braces and `return` for multiple statements                                                                                                                   | Requires `return` for all return values                                                                                                                                                                      |
+| **Example**            | `const multiply = (a, b) => { const result = a * b; return result; }; console.log(multiply(2, 3)); // 6`                                                                     | `function multiply(a, b) { const result = a * b; return result; } console.log(multiply(2, 3)); // 6`                                                                                                         |
+| **Constructor Usage**  | Cannot be used as constructors (`new` keyword)                                                                                                                               | Can be used as constructors (`new` keyword)                                                                                                                                                                  |
+| **Example**            | `const ArrowClass = () => {}; const instance = new ArrowClass(); // TypeError: ArrowClass is not a constructor`                                                              | `function TraditionalClass() { this.value = 42; } const instance = new TraditionalClass(); console.log(instance.value); // 42`                                                                               |
+| **`this` Binding**     | Lexical scoping; `this` is inherited from surrounding context                                                                                                                | Dynamic; `this` is determined by how function is called                                                                                                                                                      |
+| **Example**            | `` const ArrowFunction = () => { this.value = 42; setTimeout(() => { console.log(this.value); // `this` refers to ArrowFunction context }, 1000); }; new ArrowFunction(); `` | `` function TraditionalFunction() { this.value = 42; setTimeout(function() { console.log(this.value); // `this` refers to global object (undefined in strict mode) }, 1000); } new TraditionalFunction(); `` |
+
+</details>
 
 #### Template
 
@@ -301,6 +393,3 @@ processUser();
 <summary><b>clickme</b></summary>
 Hi
 </details>
-
-
-
