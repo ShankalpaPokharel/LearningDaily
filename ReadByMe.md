@@ -1,5 +1,3 @@
-# 25 July 2024
-
 ## Markdown Cheetsheet
 
 <details>

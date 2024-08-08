@@ -1,0 +1,2 @@
+## Tailwind CSS and Dynamic Classes
+Dynamic Class Names: Tailwind CSS relies on a <b>predefined set of classes that are included in the build process</b>. If you're trying to use dynamic values for Tailwind classes (e.g., className={bg-${color}-500}), Tailwind may not recognize these classes because they are not explicitly included in your configuration. Tailwind's purge mechanism might also remove these dynamically generated classes from the final build if they are not present in the source files it scans.

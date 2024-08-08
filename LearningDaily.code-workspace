@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"name": "LearningDaily",
+			"path": "."
+		},
+		{
+			"path": "../../Downloads/complete-javascript-course-master"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "LearningDaily"
+	}
+}
