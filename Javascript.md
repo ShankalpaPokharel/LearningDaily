@@ -1,7 +1,10 @@
+# JavaScript Fundamental Part 1
+
+<details>
+
+<summary><i>(datatype, operater, operator precedence truthy and falsy, history, type converstion and Coercion, control flow statements )</i></summary>
 
 
-
-# JavaScript Basics
 
 ### **Alert Example**
 
@@ -148,6 +151,9 @@ Examples:
 '10' - '4' - '3' - 2 + '5'; // Returns '15' (string - number operations followed by string concatenation)
 ```
 
+* **Everything we put in the () of an if statement is an expression which is evaluated as either `true` or `false`.** 
+
+
 ### Truthy and Falsy Values
 ---
 
@@ -177,3 +183,72 @@ Any value that is not falsy is considered truthy, meaning it evaluates to `true`
 ---
 ![alt text](<images/Screenshot 2024-08-08 at 11.54.35 PM.png>)
 
+
+### Swith Statement 
+---
+
+more readable in some cases
+```js
+const day = "thursday";
+
+switch(day){
+    case 'monday':
+        console.log("Plan course structure")
+        console.log("go to coding meetup")
+        break //if not break , it will continue to next break
+    case 'tuesday':
+        console.log("preapery theory video")
+        break
+    case 'tuesday':
+        console.log("preapery theory video")
+        break
+    case 'wednesday':
+    case 'thursday':
+        console.log("react part")
+        break
+    case 'friday':
+        console.log("record videos")
+        break
+    case 'saturday':
+    case 'sunday':
+        console.log("enjoy the weekend")
+        break
+    default:
+        console.log("not a valid day")
+}
+```
+
+
+### Statement and Expression
+---
+Expression : piece of code that produce the value
+Statement : Bigger piece of code, doesn't produce value itself, perform some action complete code
+
+
+### The conditional(Ternary) Operator
+---
+<i>(operator always produce value and its a expression)</i>
+
+```js
+const age = 23
+age>= 18 ? console.log("I like to drink wine") : console.log("I like to drink water")
+
+const drink = age >= 18 ? "wine" : "water"
+console.log(drink)
+
+console.log(`I like to drink ${age>=18 ? "wine" : "water"}`)
+```
+A Brief History of Javascript
+
+![alt text](<images/Screenshot 2024-08-09 at 9.05.47 AM.png>)
+
+![alt text](<images/Screenshot 2024-08-09 at 9.10.29 AM Medium.jpeg>)
+
+![alt text](<images/Screenshot 2024-08-09 at 9.14.35 AM.png>)
+
+<details>
+
+
+
+
+  
