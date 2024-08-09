@@ -67,3 +67,91 @@ export default function IndividualBlog({ individualBlog }: { individualBlog: blo
   }
   // Render your component here
 }
+```
+</details>
+
+<details>
+<summary> <b> React setState Management (Direct update and Using function) </b></summary>
+
+**Always Use the Functional Version of `setState`:**
+- When updating state in React, especially if the new state depends on the previous state, it's best to use the functional version of `setState`.
+- React batches multiple state updates within the same event handler or lifecycle method, which means if you use the regular `setState`, some updates might be lost.
+  
+  **Example:**
+  ```jsx
+  // Incorrect way (might cause bugs if count depends on previous state)
+  setCount(count + 1);
+  setCount(count + 1); 
+
+  // Correct way
+  setCount(prevCount => prevCount + 1);
+  setCount(prevCount => prevCount + 1);
+  ```
+  In the correct version, React ensures that `prevCount` is up-to-date each time the state is set.
+
+</details>
+
+<details>
+<summary><b>AbortController in `useEffect`</b></summary>
+
+**Use Case:**
+- `AbortController` is useful for canceling ongoing network requests when a component unmounts or when a new request needs to replace the old one.
+- This prevents memory leaks and ensures that outdated requests do not affect your app's behavior.
+
+**Scenario:**
+- Suppose you have a search feature that makes an API call every time the user types a character. If the user types quickly, the previous requests should be aborted to avoid unnecessary processing and potential bugs.
+
+**Example:**
+```jsx
+import { useEffect, useState } from 'react';
+
+function SearchComponent() {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`https://api.example.com/search?q=${query}`, {
+          signal: controller.signal
+        });
+        const data = await response.json();
+        setResults(data.results);
+      } catch (err) {
+        if (err.name === 'AbortError') {
+          console.log('Request aborted');
+        } else {
+          console.error('Fetch error:', err);
+        }
+      }
+    };
+
+    if (query) {
+      fetchData();
+    }
+
+    // Cleanup function to abort the fetch if the component unmounts or query changes
+    return () => {
+      controller.abort();
+    };
+  }, [query]);
+
+  return (
+    <div>
+      <input value={query} onChange={(e) => setQuery(e.target.value)} />
+      <ul>
+        {results.map(result => (
+          <li key={result.id}>{result.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+**Related Points:**
+- The `AbortController` is especially useful in scenarios where network requests are frequent, such as search inputs, infinite scrolling, or any component that re-fetches data based on user interaction.
+- Always remember to clean up the controller in the return statement of `useEffect` to avoid trying to update the state after the component has unmounted.
+</details>

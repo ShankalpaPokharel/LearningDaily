@@ -1,6 +1,6 @@
-Here is your note with grammatical corrections and proper formatting in markdown:
 
-```markdown
+
+
 # JavaScript Basics
 
 ### **Alert Example**
@@ -112,8 +112,68 @@ Operator precedence determines the order in which operators are evaluated.
 
 
 
+**Template Literals**: Allows you to directly embed variables, perform calculations, and write multiline strings easily.
 
-Boolean Logic
+```js
+const jonas = `I'm ${firstName}, a ${year - birthYear} year old ${job}`;
+```
+
+* **Another name for `if else` is `control structure`.**
+
+### **Type Conversion and Coercion**
+---
+**Type Conversion**: Manually converting a value from one type to another.
+
+Example:
+```js
+const age = "12";
+console.log(Number(age)); // Returns the Number type of 'age'
+```
+
+Note: `Number` doesn't change the original value of `age`, it just returns the converted value.
+
+```js
+console.log(Number('Jonas')); // Returns NaN
+console.log(typeof NaN); // Returns 'number'
+console.log(String(23)); // Converts the number 23 to a string
+```
+
+The reason `typeof NaN` returns `number` in JavaScript is because `NaN` (Not-a-Number) is a **special numeric value that represents an invalid or undefined result of a mathematical operation**.
+
+**Type Coercion**: The automatic or implicit conversion of values from one data type to another by JavaScript. It can occur in various situations, such as in comparisons, arithmetic operations, or when manipulating values of different types.
+
+Examples:
+```js
+2 + 3 + 4 + '5'; // Returns '95' (number + string concatenation)
+'10' - '4' - '3' - 2 + '5'; // Returns '15' (string - number operations followed by string concatenation)
+```
+
+### Truthy and Falsy Values
+---
+
+In JavaScript, truthy and falsy values are used to determine the boolean value of an expression or value in a conditional context, such as in an `if` statement or a ternary operator.
+
+**Falsy Values**:
+A falsy value is a value that is considered `false` when evaluated in a boolean context. The following values are considered falsy in JavaScript:
+- `0`
+- `''` (empty string)
+- `undefined`
+- `null`
+- `NaN`
+- `false`
+
+**Truthy Values**:
+Any value that is not falsy is considered truthy, meaning it evaluates to `true` in a boolean context.
+
+### Equality Operators: `==` vs `===`
+---
+
+- `===`: Strict equality operator, which doesn't perform type coercion. Always try to use this one.
+- `==`: Loose equality operator that does perform type coercion.
+
+
+
+### Boolean Logic
+---
 ![alt text](<images/Screenshot 2024-08-08 at 11.54.35 PM.png>)
-
 
