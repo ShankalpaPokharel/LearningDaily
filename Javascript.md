@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><i>(datatype, operater, operator precedence truthy and falsy, history, type converstion and Coercion, control flow statements )</i></summary>
+<summary><i>(datatype, operater, operator precedence, truthy and falsy, history, type converstion and Coercion, control flow statements )</i></summary>
 
 
 
@@ -238,7 +238,7 @@ console.log(drink)
 
 console.log(`I like to drink ${age>=18 ? "wine" : "water"}`)
 ```
-A Brief History of Javascript
+## A Brief History of Javascript
 
 ![alt text](<images/Screenshot 2024-08-09 at 9.05.47 AM.png>)
 
@@ -246,9 +246,134 @@ A Brief History of Javascript
 
 ![alt text](<images/Screenshot 2024-08-09 at 9.14.35 AM.png>)
 
+</details>
+
+# JavaScript Fundamental Part 2
+
 <details>
 
+<summary><i>(function, array, object, destructuring, 4 Steps to Solve Any Problem and debugging )</i></summary>
 
 
+**Strict Mode**:  
+- Enables better error checking and avoids potential issues.
 
-  
+---
+
+**3 Types of Functions**:
+
+1. **Function Declaration**  
+   - Can be called before it's defined.  
+   - Example:  
+     ```javascript
+     function functionName() {
+       // some action
+     }
+     ```
+
+2. **Function Expression**  
+   - Can't be called before it's defined.  
+   - Example:  
+     ```js
+     const functionName = function(value) {
+       // some action
+     }
+     const result = functionName(value);
+     ```
+
+3. **Arrow Function**  
+   - Short, one-line function.  
+   - Example:  
+     ```javascript
+     const calcAge = birthYear => 2037 - birthYear;
+     const age = calcAge(1991);
+     console.log(age);
+     ```
+
+![alt text](<images/Screenshot 2024-08-12 at 6.30.13 AM.png>)
+
+---
+
+**Destructuring**:  
+- **Array**:  
+  ```javascript
+  const [val1, val2, val3] = [23, 432, 32];
+  console.log(val1, val2, val3); // Output: 23, 432, 32
+  ```
+
+- **Object**:  
+  ```javascript
+  const { a, b } = obj;
+  const { a: a1, b: b1 } = obj;
+  const { a: a1 = aDefault, b = bDefault } = obj;
+  const { a, b, ...rest } = obj;
+  const { a: a1, b: b1, ...rest } = obj;
+  const { [key]: a } = obj;
+  ```
+
+---
+
+**Data Structures**:  
+
+- **Array**:  
+  ```javascript
+  const friends = ['Michael', 'Steven', 'Peter', 'Jonas', 'Nick'];
+  friends.push('Jay'); // Add to end
+  friends.unshift('John'); // Add to start
+  friends.pop(); // Remove from end
+  friends.shift(); // Remove from start
+  friends.splice(2, 1); // Remove 2nd element
+  console.log(friends.indexOf('Steven'));
+  console.log(friends.includes('Steven'));
+  ```
+
+- **Object**:  
+  ```javascript
+  const jonas = {
+    firstName: 'Jonas',
+    lastName: 'Schmedtmann',
+    birthYear: 1991,
+    job: 'teacher',
+    friends: ['Michael', 'Steven', 'Peter'],
+    hasDriversLicense: true,
+
+    calcAge: function(birthYear) {
+      return 2037 - birthYear;
+    },
+
+    getSummary: function() {
+      return `${this.firstName} is a ${this.calcAge(this.birthYear)} year old ${this.job}, and he has ${this.hasDriversLicense ? 'a' : 'no'} driver's license.`;
+    }
+  };
+
+  console.log(Object.keys(jonas));
+  console.log(Object.values(jonas));
+  console.log(jonas.calcAge(111));
+  ```
+
+- **Dot vs Bracket Notation**:  
+  - Use dot notation for simple access:  
+    ```javascript
+    console.log(jonas.firstName);
+    ```
+  - Use bracket notation for dynamic access:  
+    ```javascript
+    const nameKey = 'Name';
+    console.log(jonas['first' + nameKey]); // Output: Jonas
+    ```
+
+---
+
+
+**4 Steps to Solve Any Problem**:
+
+![alt text](<images/Screenshot 2024-08-12 at 8.28.47 PM.png>)
+
+![alt text](<images/Screenshot 2024-08-12 at 8.24.59 PM.png>)
+![alt text](<images/Screenshot 2024-08-12 at 8.26.30 PM.png>)
+![alt text](<images/Screenshot 2024-08-12 at 8.27.44 PM.png>)
+![alt text](<images/Screenshot 2024-08-12 at 8.28.20 PM.png>)
+
+![alt text](<images/Screenshot 2024-08-12 at 8.45.56 PM.png>)
+
+</details>
