@@ -377,3 +377,234 @@ console.log(`I like to drink ${age>=18 ? "wine" : "water"}`)
 ![alt text](<images/Screenshot 2024-08-12 at 8.45.56 PM.png>)
 
 </details>
+
+## How JavaScript works behind the Scenes ? 
+---
+
+<details>
+<summary>(<i>JS Engine, Stack , Heap, compilation, execution context, event loop, lexical scoping, scope, scope chain, Hoisting , this keyword, diff between function and method, Regular function vs Arrow Function , Primitives vs Reference Type</i>)</summary>
+
+
+
+
+Javascript is a high-level prototype-based object-oriented multi-paradigm interpreted or just-in-time compiled dynamic single-threaded garbage-collected programming language with first-class functions and a non-blocking event loop concurrency
+
+![alt text](<images/Screenshot 2024-08-13 at 1.14.19 PM.png>)
+![alt text](<images/Screenshot 2024-08-13 at 1.15.07 PM.png>)
+![alt text](<images/Screenshot 2024-08-13 at 1.16.02 PM.png>)
+![alt text](<images/Screenshot 2024-08-13 at 1.17.44 PM.png>)
+![alt text](<images/Screenshot 2024-08-13 at 1.19.22 PM.png>)
+![alt text](<images/Screenshot 2024-08-13 at 1.21.11 PM.png>)
+![alt text](<images/Screenshot 2024-08-13 at 1.22.14 PM.png>)
+![alt text](<images/Screenshot 2024-08-13 at 1.24.58 PM.png>)
+
+What is JavaScript Engine?
+Program that executes javascript code
+Example V8 google node,  every browser have own js engin 
+![alt text](<images/Screenshot 2024-08-13 at 1.32.21 PM.png>)
+![alt text](<images/Screenshot 2024-08-13 at 1.39.28 PM.png>)
+![alt text](<images/Screenshot 2024-08-13 at 1.43.00 PM.png>)
+![alt text](<images/Screenshot 2024-08-13 at 7.41.48 PM.png>)
+![alt text](<images/Screenshot 2024-08-13 at 7.42.40 PM.png>)
+
+### Exection Contexts and The Call Stack
+---
+
+(<i>
+    How JavaScript Execute in Stack ?
+    what is Execution Context?
+</i>)
+
+![alt text](<images/Screenshot 2024-08-13 at 7.48.16 PM.png>)
+![alt text](<images/Screenshot 2024-08-13 at 7.57.39 PM.png>)
+![alt text](<images/Screenshot 2024-08-13 at 8.03.53 PM.png>)
+after return c second is poped off , disapper from callstack 
+global is poped off only when when tab is closed or program is terminated, otherwise it always there. 
+
+* **Scoping**: How our program's variables are `organized` and `accessed`. "Where do variables live?" or "Where can we access a certain variable, and where not?"
+
+* **Lexical scoping**: Scoping is controlled by `placement` of functions and blocks in the code;
+* **Scope:** Space or environment in which a certain variable is `declared` (variable environment in case of functions). There is `global` scope, `function` scope, and `block` scope;
+
+* **Scope of a variable**: Region of our code where a certain variable can be `accessed`. 
+
+
+### Scope and Scope Chain 
+---
+<i>(`scope` is the place in our code where variables are declared )</i>
+
+[Why don't use var in modern js](https://medium.com/@darshanunadkat67/avoid-using-var-in-javascript-422394ed11a3#:~:text=Function%20Scoping%3A%20Variables%20declared%20with,hoisting%20and%20scope%2Drelated%20issues.)
+
+
+![alt text](<images/Screenshot 2024-08-13 at 10.46.55 PM.png>)
+
+![alt text](<images/Screenshot 2024-08-13 at 10.56.50 PM.png>)
+
+![alt text](<images/Screenshot 2024-08-13 at 11.15.12 PM.png>)
+
+
+**Summary**
+
+* Scoping asks the question "Where do variables live?" or "Where can we access a certain variable, and where not?";
+* There are 3 types of scope in JavaScript: the global scope, scopes defined by functions, and scopes defined by blocks;
+* Only let and const variables are block-scoped. Variables declared with var end up in the closest function scope;
+* In JavaScript, we have lexical scoping, so the rules of where we can access variables are based on exactly where in the code functions and blocks are written;
+* Every scope always has access to all the variables from all its outer scopes. This is the scope chain!
+* When a variable is not in the current scope, the engine looks up in the scope chain until it finds the variable it's looking for. This is called variable lookup;
+* The scope chain is a one-way street: a scope will never, ever have access to the variables of an inner scope;
+* The scope chain in a certain scope is equal to adding together all the variable environments of the all parent scopes;
+* The scope chain has nothing to do with the order in which functions were called. It does not affect the scope chain at
+
+### Hoisting in Javascript 
+---
+
+![alt text](<images/Screenshot 2024-08-14 at 8.28.19 AM.png>)
+
+(<I> we can't use function expression before declare cause of hoisting</I>)
+
+
+
+**The Temporal Dead Zone (TDZ)** is a behavior that arises due to the way `let` and `const` declarations are hoisted in JavaScript. It refers to the period between the start of a block scope and the point where a `let` or `const` variable is declared, during which the variable cannot be accessed.
+
+In simpler terms, when you try to access a `let` or `const` variable before it is declared, you'll get a `ReferenceError` because the variable is in the Temporal Dead Zone, which means it is uninitialized and inaccessible.
+
+**Example:**
+
+```javascript
+console.log(x); // ReferenceError: Cannot access 'x' before initialization
+let x = 5;
+```
+
+The TDZ does not apply to variables declared with `var` or function declarations, as they are hoisted and initialized with `undefined` at the beginning of their respective scopes.
+
+The TDZ is a mechanism introduced in ES6 to catch certain types of errors and prevent the use of uninitialized variables, which can lead to bugs in your code.
+
+![alt text](<images/Screenshot 2024-08-14 at 8.33.23 AM.png>)
+
+![alt text](<images/Screenshot 2024-08-14 at 8.55.53 AM.png>)
+
+(<I>Var is created a property in  the window object of the browser not const and let.</I>)
+
+![alt text](<images/Screenshot 2024-08-14 at 9.00.10 AM.png>)
+
+
+### This Keyword
+---
+![alt text](<images/Screenshot 2024-08-14 at 9.10.49 AM.png>)
+![alt text](<images/Screenshot 2024-08-14 at 9.14.18 AM.png>)
+![alt text](<images/Screenshot 2024-08-14 at 9.18.32 AM.png>)
+
+
+### Difference between function and method
+---
+
+The difference between a function and a method lies primarily in their context and usage:
+
+####  Function
+---
+
+- **Definition**: A function is a block of code designed to perform a specific task. It is a standalone piece of code that can be called anywhere in the program.
+- **Context**: Functions are not tied to any object or class. They exist independently and can be invoked on their own.
+- **Example**:
+
+  ```javascript
+  function greet() {
+      return "Hello, World!";
+  }
+
+  console.log(greet()); // Output: "Hello, World!"
+  ```
+
+#### Method
+---
+
+- **Definition**: A method is a function that is associated with an object or a class. It is defined within the context of a class or an object and is typically used to perform actions related to that object or class.
+- **Context**: Methods are invoked on objects or instances of classes. They often operate on data that is stored within the object or class.
+- **Example**:
+
+  ```javascript
+  const person = {
+      name: "John",
+      greet: function() {
+          return "Hello, " + this.name + "!";
+      }
+  };
+
+  console.log(person.greet()); // Output: "Hello, John!"
+  ```
+
+#### Key Differences
+---
+
+- **Scope**: 
+  - A function is generally a standalone block of code.
+  - A method is tied to an object or class.
+  
+- **Invocation**:
+  - A function is called by its name directly.
+  - A method is called on an object or class instance using dot notation (e.g., `object.method()`).
+  
+- **Access to `this`**:
+  - Functions do not have access to the `this` keyword unless they are called as methods or with specific binding.
+  - Methods have access to the `this` keyword, which typically refers to the object they belong to.
+
+
+
+### Regular Functions vs Arrow Functions 
+---
+
+![alt text](<images/Screenshot 2024-08-14 at 9.38.33 AM.png>)
+![alt text](<images/Screenshot 2024-08-14 at 9.39.07 AM.png>)
+Argument
+![alt text](<images/Screenshot 2024-08-14 at 9.42.35 AM.png>)
+
+
+### Primitives Vs Objects (Primitive vs Reference Types)
+---
+
+![alt text](<images/Screenshot 2024-08-14 at 9.46.53 AM.png>)
+
+![alt text](<images/Screenshot 2024-08-14 at 9.49.21 AM.png>)
+
+
+**Stack**
+
+- **Purpose**: The stack is used for storing primitive data types and function call information in a last-in, first-out (LIFO) order.
+- **Characteristics**: It's fast, automatically managed, but has a fixed size. It's where variables like numbers and booleans are stored.
+
+**Heap**
+
+- **Purpose**: The heap is used for dynamic memory allocation, where objects, arrays, and functions are stored.
+- **Characteristics**: It allows for flexible memory use, is managed by the garbage collector, and is slower to access compared to the stack.
+
+![alt text](<images/Screenshot 2024-08-14 at 9.55.50 AM.png>)
+(<i>const is immutable only in premetive data type</i>)
+![alt text](<images/Screenshot 2024-08-14 at 9.59.07 AM.png>)
+we can use deep copy and shallow copy, to avoid reference to memory address of heap  Spread operator `{ ...obj }`, `Object.assign({},origianalObject)`, `.slice()` for arrays. Deep Copy: `JSON.parse(JSON.stringify(obj))`, `structuredClone(obj)`, `_.cloneDeep() (Lodash)`, custom recursive function.
+
+
+
+Can't completely change Const the object
+```js
+const sampleObject = {
+    name: "John Doe",
+    age: 30,
+    city: "New York",
+    hobbies: ["reading", "hiking", "coding"]
+};
+
+sampleObject.age = 31;
+sampleObject = {
+    name: "Jane Smith",
+    age: 25,
+    city: "London",
+    hobbies: ["painting", "gardening", "traveling"]
+};
+TypeError: Assignment to constant variable.
+
+```
+
+Shallow copy only work in the first level 
+![alt text](<images/Screenshot 2024-08-14 at 9.59.07 AM.png>)
+
+</details>

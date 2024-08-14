@@ -285,3 +285,107 @@ useEffect(() => {
 }, [productList, visibleCount]);
 ```
 </details>
+
+
+### Add google translater in Next App
+---
+
+<details>
+
+<summary>Add google translater in Next App</summary>
+
+
+1. Make a GoogleTranslate.tsx component 
+
+```tsx
+
+"use client";
+
+import { useEffect } from "react";
+
+declare global {
+  interface Window {
+    google: any;
+    googleTranslateElementInit: () => void;
+  }
+}
+
+const GoogleTranslate: React.FC = () => {
+  useEffect(() => {
+    if (!window.googleTranslateElementInit) {
+    const googleTranslateElementInit = () => {
+      if (window.google && window.google.translate) {
+        new window.google.translate.TranslateElement(
+          {
+            pageLanguage: "en",
+            layout: window.google.translate.TranslateElement.InlineLayout.HORIZONTAL,
+            autoDisplay: false // Prevent automatic display of the widget
+          },
+          "google_translate_element"
+        );
+      }
+    };
+
+    const addScript = () => {
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.async = true;
+      script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      document.body.appendChild(script);
+      window.googleTranslateElementInit = googleTranslateElementInit;
+    };
+
+    addScript();
+  }
+  }, []);
+
+  return <div id="google_translate_element" className="flex"></div>;
+};
+
+export default GoogleTranslate;
+
+```
+
+2. Add it in the layout
+
+```tsx
+export default async function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  const settingData = await getSettingData()
+  return (
+    <html lang="en">
+      <body className={}>
+      <GoogleTranslate/> //here
+        <PageTop settingData={settingData} />
+        <Suspense fallback={<Loading />}>
+          {children}
+        </Suspense>
+        <Footer/>
+        <FooterBottom />
+      </body>
+    </html>
+  );
+}
+```
+
+3. Some style in global.css (not mendetory)
+```css
+
+#google_translate_element {
+    display: flex;
+    align-items: center;
+  }
+  
+.goog-te-gadget {
+    display: flex;
+  }
+.goog-te-menu-frame {
+    display: none !important;
+  }
+  
+```
+
+</details>
