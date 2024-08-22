@@ -608,3 +608,252 @@ Shallow copy only work in the first level
 ![alt text](<images/Screenshot 2024-08-14 at 9.59.07 AM.png>)
 
 </details>
+
+# Data Structures Modern Operator
+
+
+### Array and Object Destructuring
+---
+
+Destructuring allows you to extract values from arrays or properties from objects and assign them to variables.
+
+#### Basic Assigning and Default Values
+
+**Array Destructuring:**
+
+```javascript
+const arr = [1, 2, 3];
+const [x, y, z] = arr; // x=1, y=2, z=3
+
+// Assigning default values
+const [a, b, c = 5] = [7, 8]; // a=7, b=8, c=5 (default)
+```
+
+**Object Destructuring:**
+
+```javascript
+let a = 111;
+let b = 999;
+const obj = { a: 23, b: 7, c: 14 };
+
+// Destructuring with default values
+({ a, b, c: d = 10 } = obj); // a=23, b=7, d=14 (c renamed to d)
+
+// Why parentheses? 
+// Without parentheses, the JavaScript interpreter will treat the code block as a statement (unexpected token error).
+```
+
+#### Nested Objects and Nested Arrays
+
+You can destructure nested objects and arrays directly:
+
+**Nested Object Destructuring:**
+
+```javascript
+const openingHours = {
+  mon: { open: 8, close: 20 },
+  fri: { open: 10, close: 22 },
+};
+
+const {
+  fri: { open, close },
+} = openingHours; // open=10, close=22
+```
+
+**Nested Array Destructuring:**
+
+```javascript
+const nestedArr = [1, [2, 3], 4];
+const [i, [j, k]] = nestedArr; // i=1, j=2, k=3
+```
+
+### Spread Operator (...)
+
+The spread operator allows you to expand an array or object into its individual elements or properties.
+
+**Basic Usage:**
+
+```javascript
+const arr = [7, 8, 9];
+const newArr = [1, 2, ...arr];
+console.log(newArr); // [1, 2, 7, 8, 9]
+```
+
+#### Difference Between Spread Operator and Destructuring
+
+- **Spread Operator**: Expands elements into individual values (useful for copying or combining arrays/objects).
+- **Destructuring**: Extracts elements/properties from arrays/objects and assigns them to variables.
+
+**Copying an Array:**
+
+```javascript
+const arrCopy = [...arr]; // Creates a shallow copy of arr
+```
+
+**Joining Two Arrays:**
+
+```javascript
+const anotherArr = [10, 11];
+const combinedArr = [...arr, ...anotherArr];
+console.log(combinedArr); // [7, 8, 9, 10, 11]
+```
+
+### Rest Pattern and Parameters
+
+The rest pattern allows you to group the remaining elements into a new array or object. It is the opposite of the spread operator and must be the last element in the destructuring assignment.
+
+**Rest Pattern in Arrays:**
+
+```javascript
+const [first, second, ...rest] = [1, 2, 3, 4, 5];
+console.log(rest); // [3, 4, 5]
+```
+
+**Rest Pattern in Objects:**
+
+```javascript
+const { a, b, ...others } = { a: 1, b: 2, c: 3, d: 4 };
+console.log(others); // { c: 3, d: 4 }
+```
+
+**Rest Parameters in Functions:**
+
+```javascript
+function add(...numbers) {
+  return numbers.reduce((acc, curr) => acc + curr, 0);
+}
+
+console.log(add(2, 3, 4)); // 9
+```
+
+**Why only at the end?**  
+The rest pattern must be at the end of the destructuring assignment because it collects all remaining elements. If placed anywhere else, it would not be clear which elements should be included in the rest group.
+
+### JavaScript Concepts: Short-Circuiting, Nullish Coalescing, Logical Assignment, and More
+
+---
+
+#### **1. Short-Circuiting with `&&` and `||`**
+
+Short-circuiting refers to the way logical operators `&&` (AND) and `||` (OR) evaluate expressions.
+
+- **OR (`||`) Operator:**
+  - Returns the first truthy value or the last value if all are falsy.
+  - Example:
+    ```javascript
+    console.log(3 || 'Jonas'); // Output: 3 (first truthy)
+    console.log('' || 'Jonas'); // Output: 'Jonas' (second value is truthy)
+    console.log(undefined || null); // Output: null (both are falsy)
+    console.log(undefined || 0 || '' || 'Hello' || 23); // Output: 'Hello' (first truthy)
+    ```
+
+- **AND (`&&`) Operator:**
+  - Returns the first falsy value or the last value if all are truthy.
+  - Example:
+    ```javascript
+    console.log(0 && 'Jonas'); // Output: 0 (first falsy)
+    console.log(7 && 'Jonas'); // Output: 'Jonas' (last truthy)
+    console.log('Hello' && 23 && null && 'jonas'); // Output: null (first falsy)
+    ```
+
+---
+
+#### **2. Nullish Coalescing Operator (`??`)**
+
+- The Nullish Coalescing Operator (`??`) returns the right-hand side value if the left-hand side is `null` or `undefined`, otherwise, it returns the left-hand side value. It doesn't consider `0` or `''` as nullish.
+- Example:
+  ```javascript
+  const guest = 0;
+  const guestCorrect = guest ?? 10;
+  console.log(guestCorrect); // Output: 0 (because 0 is not nullish)
+  ```
+
+---
+
+#### **3. Logical Assignment Operators**
+
+Logical assignment operators combine logical operators (`||`, `&&`, `??`) with assignment (`=`) to simplify code.
+
+- **OR Assignment (`||=`):**
+  - Assigns a value if the current value is falsy.
+  - Example:
+    ```javascript
+    const rest1 = { name: 'Capri', numGuests: 20 };
+    const rest2 = { name: 'La Piazza' };
+    
+    rest1.numGuests ||= 10;
+    rest2.numGuests ||= 10;
+    
+    console.log(rest1.numGuests); // Output: 20 (numGuests is truthy)
+    console.log(rest2.numGuests); // Output: 10 (numGuests is undefined)
+    ```
+
+- **Nullish Assignment (`??=`):**
+  - Assigns a value if the current value is `null` or `undefined`.
+  - Example:
+    ```javascript
+    rest1.numGuests ??= 10;
+    rest2.numGuests ??= 10;
+    
+    console.log(rest1.numGuests); // Output: 20
+    console.log(rest2.numGuests); // Output: 10
+    ```
+
+- **AND Assignment (`&&=`):**
+  - Assigns a value only if the current value is truthy.
+  - Example:
+    ```javascript
+    rest1.owner &&= '<ANONYMOUS>';
+    rest2.owner &&= '<ANONYMOUS>';
+    
+    console.log(rest1.owner); // Output: undefined (no owner property)
+    console.log(rest2.owner); // Output: '<ANONYMOUS>'
+    ```
+
+---
+
+#### **4. `for...of` Loop**
+
+- The `for...of` loop iterates over iterable objects (like arrays) and can be used to access values and indexes.
+- Example:
+  ```javascript
+  const menuBook = ['Pizza', 'Pasta', 'Risotto'];
+  
+  // Just values
+  for (const item of menuBook) console.log(item); 
+  // Output: Pizza, Pasta, Risotto
+  
+  // Entries (index and value)
+  for (const [i, el] of menuBook.entries()) console.log(`${i + 1}: ${el}`);
+  // Output: 1: Pizza, 2: Pasta, 3: Risotto
+  ```
+
+---
+
+#### **5. Optional Chaining (`?.`)**
+
+- Optional chaining allows you to safely access deeply nested properties that might not exist.
+- Example:
+  ```javascript
+  const restaurant = {
+    name: 'Italiano',
+    openingHour: {
+      mon: { open: 9, close: 22 },
+      tue: { open: 10, close: 22 },
+    },
+  };
+
+  // Without Optional Chaining
+  if (restaurant.openingHour.mon) console.log(restaurant.openingHour.mon.open);
+
+  // With Optional Chaining
+  const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+  for (const day of days) {
+    const open = restaurant.openingHour[day]?.open ?? 'closed';
+    console.log(`On ${day}, we open at ${open}`);
+  }
+  // Output: On mon, we open at 9
+  // Output: On wed, we open at closed
+  ```
+  
+---
