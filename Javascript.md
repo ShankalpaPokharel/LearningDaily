@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><i>(datatype, operater, operator precedence, truthy and falsy, history, type converstion and Coercion, control flow statements )</i></summary>
+<summary> <i>(datatype, operater, operator precedence, truthy and falsy, history, type converstion and Coercion, control flow statements )</i> </summary>
 
 
 
@@ -609,7 +609,12 @@ Shallow copy only work in the first level
 
 </details>
 
+
 # Data Structures Modern Operator
+
+<details>
+
+<summary><i>(Array and Object destructuring, spread operator, OR and And operator , for of Loop, optional chaining, set and map)</i></summary>
 
 
 ### Array and Object Destructuring
@@ -857,3 +862,384 @@ Logical assignment operators combine logical operators (`||`, `&&`, `??`) with a
   ```
   
 ---
+
+### Set and Map
+
+#### **Sets**
+- **Definition**: A collection of unique values. 
+- **When to Use**: Use a Set when order doesn't matter and you need to store unique values.
+- **Key Features**:
+  - Strings are iterable and can be used in Sets.
+  - Duplicate values are automatically removed.
+  - Operations: `.add()`, `.delete()`, `.has()`, `.size`.
+
+**Example**:
+```javascript
+const ordersSet = new Set(['Pasta', 'Pizza', 'Pizza', 'Risotto', 'Pasta']);
+console.log(ordersSet); // Set { 'Pasta', 'Pizza', 'Risotto' }
+
+ordersSet.add('Garlic Bread');
+ordersSet.delete('Pizza');
+console.log(ordersSet); // Set { 'Pasta', 'Risotto', 'Garlic Bread' }
+
+for (const order of ordersSet) console.log(order);
+// Outputs: Pasta, Risotto, Garlic Bread
+
+const staff = ['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef'];
+const staffUnique = [...new Set(staff)];
+console.log(staffUnique); // ['Waiter', 'Chef', 'Manager']
+```
+
+**When to Use Arrays vs. Sets**:
+- **Arrays**: Use when order matters, and duplicates are allowed.
+- **Sets**: Use when you need unique values and order doesn’t matter.
+
+---
+
+#### **Maps**
+- **Definition**: A collection of key-value pairs, where keys can be of any data type.
+- **When to Use**: Prefer Maps when you need key-value pairs, especially when keys aren’t strings.
+- **Key Features**:
+  - Keys can be of any data type (e.g., strings, numbers, arrays).
+  - Methods: `.set()`, `.get()`, `.size`.
+
+**Example**:
+```javascript
+const rest = new Map();
+rest.set('name', 'Classico Italiano')
+    .set(1, 'Firenze, Italy')
+    .set('categories', ['Italian', 'Pizzeria', 'Vegetarian'])
+    .set('open', 11)
+    .set('close', 23)
+    .set(true, 'We are open :D')
+    .set(false, 'We are closed :(');
+
+console.log(rest.get('name')); // 'Classico Italiano'
+console.log(rest.get(true)); // 'We are open :D'
+
+const time = 21;
+console.log(rest.get(time > rest.get('open') && time < rest.get('close'))); // 'We are open :D'
+
+const arr = [1, 2];
+rest.set(arr, 'Test');
+console.log(rest.get(arr)); // 'Test'
+
+// Using Maps for questions and answers
+const question = new Map([
+    ['question', 'What is the best programming language in the world?'],
+    [1, 'C'],
+    [2, 'Java'],
+    [3, 'JavaScript'],
+    ['correct', 3],
+    [true, 'Correct 🎉'],
+    [false, 'Try again!']
+]);
+
+for (const [key, value] of question) {
+    if (typeof key === 'number') console.log(`Answer ${key}: ${value}`);
+}
+```
+
+**When to Use Maps vs. Objects**:
+- **Maps**: Use when you need keys of various data types or when you set keys dynamically.
+- **Objects**: Use for fixed and string-only key-value pairs.
+### Which data struture to use?
+
+![alt text](<images/Screenshot 2024-08-26 at 8.25.19 AM.png>)
+
+![alt text](<images/Screenshot 2024-08-26 at 8.28.42 AM.png>)
+
+![alt text](<images/Screenshot 2024-08-26 at 8.59.39 AM.png>)
+
+</details>
+
+## Functions in JavaScript
+
+<details>
+
+<summary><i>(First-Class and Higher Order Function, Function acceping Callbacks & and Returing Function, Bind Method, IIFE(Immedite Invoked Function Expression))</i></summary>
+
+#### **Function Default Parameters**
+- **Default Parameters (ES6)**: You can set default values for function parameters directly in the function signature.
+- **Backward Compatibility (ES5)**: Before ES6, default parameters were handled with `||` operators.
+
+**Example**:
+```javascript
+const bookings = [];
+const createBooking = function(flightNum, numPassengers = 1, price = 199) {
+    // ES5 fallback
+    // numPassengers = numPassengers || 1;
+    // price = price || 199;
+  
+    const booking = {
+        flightNum,
+        numPassengers,
+        price
+    };
+  
+    console.log(booking);
+    bookings.push(booking);
+};
+
+createBooking("LH123");           // {flightNum: "LH123", numPassengers: 1, price: 199}
+createBooking("LH123", 2, 800);   // {flightNum: "LH123", numPassengers: 2, price: 800}
+createBooking("LH123", undefined, 100); // {flightNum: "LH123", numPassengers: 1, price: 100}
+```
+- **Best Practices**: When a function has multiple optional parameters, it's often better to use an object as an argument to increase readability.
+
+#### **Passing Arguments: Value vs. Reference**
+- **Primitives (Value Types)**: When passing primitives (e.g., strings, numbers, booleans) to a function, the function receives a copy of the value. Changes inside the function don’t affect the original variable.
+- **Objects (Reference Types)**: When passing objects to a function, the function receives a reference to the object, meaning changes inside the function will mutate the original object.
+
+**Example**:
+```javascript
+const flight = 'LH234';
+const jonas = {
+    name: 'Jonas Schmedtmann',
+    passport: 12123123
+};
+
+const checkIn = function(flightNum, passenger) {
+    flightNum = 'LH999'; // This does not affect the original 'flight' variable
+    passenger.name = "Mr. " + passenger.name; // This does affect the original 'jonas' object
+  
+    if (passenger.passport === 12123123) {
+        console.log('Check in');
+    } else {
+        console.log('Wrong passport');
+    }
+};
+
+checkIn(flight, jonas);
+console.log(flight); // 'LH234' - remains unchanged
+console.log(jonas);  // { name: 'Mr. Jonas Schmedtmann', passport: 12123123 } - 'name' is changed
+```
+
+**Key Takeaways**:
+- **Primitive Types**: Immutable, passed by value.
+- **Reference Types**: Mutable, passed by reference. Changes in the function reflect outside the function.
+
+#### **Common Pitfalls**
+- **Unintentional Mutation**: Be cautious when modifying objects inside functions. Use techniques like object spread (`{...obj}`) or `Object.assign()` to create shallow copies if you need to avoid altering the original object.
+  
+- **Undefined Parameters**: When skipping parameters, especially in functions with multiple defaults, use `undefined` to maintain the correct order, letting default values take effect.
+
+
+
+### First-Class and Higher-Order Function
+---
+![alt text](<images/Screenshot 2024-08-29 at 7.41.50 AM.png>)
+
+First class is just a feature programming language either has or does not have. All it means that all functions are values.  There is no frist class function in practice . It just a concept. Thare are however higher order functions in practice which are possible because the language supports first class functions. 
+
+###  The `call` and `apply` Methods
+
+#### **The `call` Method**
+- **Purpose**: The `call` method allows you to explicitly set the `this` context for a function and immediately invoke it.
+- **Usage**: Useful when you want to borrow a method from one object and use it on another.
+
+**Example**:
+```javascript
+const lufthansa = {
+  airline: 'Lufthansa',
+  iataCode: 'LH',
+  bookings: [],
+  book(flightNum, name) {
+    console.log(`${name} booked a seat on ${this.airline} flight ${this.iataCode}${flightNum}`);
+    this.bookings.push({ flight: `${this.iataCode}${flightNum}`, name });
+  },
+};
+
+lufthansa.book(239, 'Jonas Schmedtmann'); // Normal method call
+lufthansa.book(635, 'John Smith');
+
+const eurowings = {
+  airline: 'Eurowings',
+  iataCode: 'EW',
+  bookings: [],
+};
+
+const book = lufthansa.book;
+
+// Using `call` to set `this` to `eurowings`
+book.call(eurowings, 23, 'Sarah Williams'); 
+console.log(eurowings); // Sarah Williams booked on Eurowings
+
+// Using `call` again with `lufthansa`
+book.call(lufthansa, 239, 'Mary Cooper'); 
+console.log(lufthansa); // Mary Cooper booked on Lufthansa
+
+const swiss = {
+  airline: 'Swiss Air Lines',
+  iataCode: 'LX',
+  bookings: [],
+};
+
+book.call(swiss, 583, 'Mary Cooper'); // Mary Cooper booked on Swiss
+```
+
+#### **The `apply` Method**
+- **Purpose**: The `apply` method is similar to `call`, but it takes arguments as an array instead of listing them individually.
+- **Usage**: Useful when arguments are already in an array or when working with functions that require an array of arguments.
+
+**Example**:
+```javascript
+const flightData = [583, 'George Cooper'];
+book.apply(swiss, flightData); // Using `apply` to set `this` and pass arguments as an array
+console.log(swiss); // George Cooper booked on Swiss
+
+// `call` with spread syntax does the same as `apply`
+book.call(swiss, ...flightData); 
+```
+
+#### **Key Differences**
+- **`call`**: Takes arguments one by one.
+- **`apply`**: Takes arguments as an array.
+
+**Best Practice**: With modern JavaScript (ES6+), the `apply` method is less common because you can achieve the same result with `call` and the spread syntax (`...`).
+
+### Functions Accepting Callbacks & Returning Functions
+---
+
+- **Functions Accepting Callbacks**: A function can take another function as an argument (a callback) and execute it within the function. This is useful for asynchronous operations or custom behavior.
+
+  **Example**:
+  ```javascript
+  const greet = name => console.log(`Hello, ${name}`);
+  const processUserInput = (callback) => {
+      const name = prompt('Please enter your name.');
+      callback(name);
+  };
+  processUserInput(greet);
+  ```
+
+- **Functions Returning Functions**: A function can return another function, allowing for powerful patterns like function factories or closures.
+
+  **Example**:
+  ```javascript
+  const createGreeting = greeting => name => console.log(`${greeting}, ${name}`);
+  const greetHello = createGreeting('Hello');
+  greetHello('Jonas');
+  ```
+
+**Key Takeaway**: 
+- **Callbacks**: Enable flexible and reusable code by passing functions as arguments.
+- **Returning Functions**: Allows creating customized functions or preserving data via closures.
+
+
+###  The `bind` Method
+---
+
+
+#### **The `bind` Method**
+- **Purpose**: The `bind` method creates a new function with a fixed `this` context and, optionally, predefined arguments. Unlike `call` and `apply`, `bind` doesn’t immediately invoke the function—it returns a new function instead.
+
+**Example**:
+```javascript
+const bookEW = book.bind(eurowings);
+const bookLH = book.bind(lufthansa);
+const bookLX = book.bind(swiss);
+
+bookEW(23, 'Steven Williams'); // Binds `this` to `eurowings` and books a flight
+
+// Partial Application: Pre-setting arguments
+const bookEW23 = book.bind(eurowings, 23); // Pre-sets flight number 23 for `eurowings`
+bookEW23('Jonas Schmedtmann');
+bookEW23('Martha Cooper');
+```
+
+#### **Using `bind` with Event Listeners**
+- **Context Fixing**: `bind` is particularly useful in event listeners where the `this` context may change (e.g., pointing to the element triggering the event rather than the object).
+
+**Example**:
+```javascript
+lufthansa.planes = 300;
+lufthansa.buyPlane = function () {
+  console.log(this); // Logs the `lufthansa` object
+
+  this.planes++;
+  console.log(this.planes); // Increases the plane count for `lufthansa`
+};
+
+document.querySelector('.buy').addEventListener('click', lufthansa.buyPlane.bind(lufthansa));
+// Ensures `this` in `buyPlane` points to `lufthansa` instead of the button element
+```
+
+#### **Partial Application with `bind`**
+- **Partial Application**: `bind` can also be used to create a new function with some arguments pre-set, simplifying repetitive tasks.
+
+**Example**:
+```javascript
+const addTax = (rate, value) => value + value * rate;
+console.log(addTax(0.1, 200)); // Standard function call
+
+const addVAT = addTax.bind(null, 0.23); // Pre-sets the VAT rate to 23%
+console.log(addVAT(100)); // Applies 23% VAT to 100
+console.log(addVAT(23));  // Applies 23% VAT to 23
+
+// Alternative using closures:
+const addTaxRate = function(rate) {
+  return function(value) {
+    return value + value * rate;
+  };
+};
+const addVAT2 = addTaxRate(0.23); // Creates a function that always applies 23% VAT
+console.log(addVAT2(100)); // Applies 23% VAT to 100
+console.log(addVAT2(23));  // Applies 23% VAT to 23
+```
+
+**Key Takeaways**:
+- **`bind` for `this` Context**: Use `bind` to ensure the correct `this` context in functions, particularly in asynchronous operations or event handlers.
+- **Partial Application**: `bind` can pre-set arguments for functions, making it useful for repetitive tasks or creating specific utility functions.
+
+
+### Best Practice Summary:
+
+- **`call`**: Use for immediate function invocation with a specific `this` and fixed arguments.
+- **`apply`**: Use when arguments are in an array (or prefer `call` with the spread operator).
+- **`bind`**: Use to create a new function with a bound `this` context, ideal for event handlers and partial application.
+
+### IIFE (Immediately Invoked Function Expressions)
+---
+
+#### **IIFE Explained**
+- **What It Is**: An IIFE is a function that is defined and immediately executed.
+- **Syntax**: Wrap the function in parentheses and follow it with `()` to invoke it.
+
+**Example**:
+```javascript
+(function () {
+  console.log('This will never run again');
+  const isPrivate = 23;
+})();
+
+// This will ALSO never run again (Arrow Function IIFE)
+(() => console.log('This will ALSO never run again'))();
+```
+
+#### **Why Use IIFE?**
+1. **Encapsulation**: Variables defined inside an IIFE are not accessible outside of it, creating a private scope. This helps avoid polluting the global namespace and prevents variable name conflicts.
+   - **Example**: `const isPrivate = 23;` inside the IIFE is not accessible outside.
+   - **Reason**: Encapsulation is crucial in large codebases to manage scope and prevent accidental interference with other parts of the code.
+
+2. **Immediate Execution**: IIFEs are useful when you need a piece of code to run once, like initialization logic, without leaving any lingering variables or functions in the global scope.
+
+#### **Block Scope vs. IIFE**
+- **Block Scope**: Modern JavaScript (ES6+) allows for similar encapsulation using block scope with `let` or `const` inside curly braces `{}`. However, variables declared with `var` are not block-scoped and can still leak out of the block.
+  
+**Example**:
+```javascript
+{
+  const isPrivate = 23;  // Block-scoped, not accessible outside
+  var notPrivate = 46;   // Not block-scoped, accessible outside
+}
+
+// console.log(isPrivate); // Error: isPrivate is not defined
+console.log(notPrivate);  // 46, `var` is function-scoped, not block-scoped
+```
+
+**Key Takeaway**: 
+- **IIFE**: Use for immediate, one-time execution with encapsulated scope.
+- **Block Scope**: Use for modern, clean encapsulation without requiring an IIFE, but remember `var` does not respect block scope.
+
+</details>
