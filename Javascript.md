@@ -1243,3 +1243,79 @@ console.log(notPrivate);  // 46, `var` is function-scoped, not block-scoped
 - **Block Scope**: Use for modern, clean encapsulation without requiring an IIFE, but remember `var` does not respect block scope.
 
 </details>
+
+
+## Closures 
+
+
+![alt text](<images/Screenshot 2024-08-30 at 7.09.14 AM.png>)
+![alt text](<images/Screenshot 2024-08-30 at 7.13.19 AM.png>)
+VE-variable envroment
+![alt text](<images/Screenshot 2024-08-30 at 7.16.13 AM.png>)
+
+
+### Array Methods 
+**Array Methods:** Methods are functions that are attached to objects. Since arrays are objects in JavaScript, they have access to various built-in methods for manipulating and interacting with array data.
+
+| **Method**  | **Description**                                      | **Modifies Original Array** | **Example** |
+|-------------|------------------------------------------------------|-----------------------------|-------------|
+| **`slice`** | Extracts part of the array, returns a new array       | No                           | `arr.slice(1, 3)` ➔ `['b', 'c']` |
+| **`splice`**| Removes/replaces elements from the array              | Yes                          | `arr.splice(2)` ➔ `['a', 'b']` |
+| **`reverse`** | Reverses the array order                             | Yes                          | `arr.reverse()` ➔ `['e', 'd', 'c', 'b', 'a']` |
+| **`concat`** | Merges arrays, returns a new array                    | No                           | `arr.concat(arr2)` ➔ `['a', 'b', 'c', 'd', 'e', 'j', 'i', 'h', 'g', 'f']` |
+| **`join`**   | Joins array elements into a string                    | No                           | `arr.join('-')` ➔ `'a-b-c-d-e'` |
+| **`at`**     | Returns the element at a specific index (supports negative indexing) | No              | `arr.at(-1)` ➔ `'e'` |
+
+### Additional Notes
+- **`slice`** is useful for creating shallow copies of arrays.
+- **`splice`** is typically used to remove elements or replace elements within an array.
+- **`reverse`** can be handy for reversing the order of elements, but be cautious as it mutates the original array.
+- **`concat`** is a non-destructive way to combine arrays.
+- **`join`** is often used to create strings from array elements, with a specified separator.
+- **`at`** provides a cleaner way to access elements from the start or end of an array, compared to traditional methods.
+
+
+### Array Methods: `for...of` vs `forEach`
+---
+#### Example Code:
+```javascript
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// Using for...of loop with array.entries()
+for (const [i, movem] of movements.entries()) {
+  console.log("for...of");
+  if (movem > 0) {
+    console.log(`You deposited ${movem}`);
+  } else {
+    console.log(`Movement ${i + 1}: You withdrew ${Math.abs(movem)}`);
+  }
+}
+
+console.log("-----FOREACH-----");
+
+// Using forEach method
+movements.forEach(function(movem, index, array) {
+  if (movem > 0) {
+    console.log(`You deposited ${movem}`);
+  } else {
+    console.log(`Movement ${index + 1}: You withdrew ${Math.abs(movem)}`);
+  }
+});
+```
+
+#### Key Points:
+- **`for...of` Loop**:
+  - Iterates over array elements.
+  - Use `.entries()` to access both the index and the value.
+  - Suitable when manual control over iteration is needed.
+
+- **`forEach` Method**:
+  - Higher-order function that takes a callback.
+  - Automatically provides the current element, index, and the entire array.
+  - Processes each element in sequence.
+
+### My Learning:
+I've learned the importance of understanding different array methods like `.at()`, `.slice()`, and `.splice()`. The `.at()` method is handy for accessing elements with both positive and negative indices. The `.slice()` method is useful when I need a portion of the array without altering the original one, as it returns a new array. On the other hand, `.splice()` not only extracts a portion but also changes the original array by removing the extracted elements.
+
+In terms of looping methods, `for...of` requires manual handling to access both the index and the item, especially when using `.entries()`. However, `forEach` simplifies things by automatically providing the current item, index, and the entire array. It's convenient when I need to perform an action on each array element without worrying about manual indexing.
+
