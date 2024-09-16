@@ -957,7 +957,7 @@ for (const [key, value] of question) {
 
 <details>
 
-<summary><i>(First-Class and Higher Order Function, Function acceping Callbacks & and Returing Function, Bind Method, IIFE(Immedite Invoked Function Expression))</i></summary>
+<summary><i>(First-Class and Higher Order Function, Function acceping Callbacks & and Returing Function, Bind Method, IIFE(Immedite Invoked Function Expression) , Closures,array method,for...of, for...each)</i></summary>
 
 #### **Function Default Parameters**
 - **Default Parameters (ES6)**: You can set default values for function parameters directly in the function signature.
@@ -1242,7 +1242,6 @@ console.log(notPrivate);  // 46, `var` is function-scoped, not block-scoped
 - **IIFE**: Use for immediate, one-time execution with encapsulated scope.
 - **Block Scope**: Use for modern, clean encapsulation without requiring an IIFE, but remember `var` does not respect block scope.
 
-</details>
 
 
 ## Closures 
@@ -1319,3 +1318,59 @@ I've learned the importance of understanding different array methods like `.at()
 
 In terms of looping methods, `for...of` requires manual handling to access both the index and the item, especially when using `.entries()`. However, `forEach` simplifies things by automatically providing the current item, index, and the entire array. It's convenient when I need to perform an action on each array element without worrying about manual indexing.
 
+</details>
+
+## Data transformation
+
+<details>
+
+<summary><i>(map,filter,reduce,find,findIndex,some,every,flat,flatmap,array fill)</i></summary>
+
+![alt text](<images/Screenshot 2024-09-15 at 7.36.09 AM.png>)
+![alt text](<images/Screenshot 2024-09-16 at 7.30.21 AM.png>)
+
+
+### JavaScript Array Methods
+
+| **Method**       | **Description**                                      | **Returns**            | **Example** (Using `sam1 = [12, 324, 342, 23, 122]`) | **Callback Parameters**                                                                                     | **Unique Features & Important Concepts**                                                         |
+|------------------|------------------------------------------------------|------------------------|------------------------------------------------------|------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
+| **`map()`**      | Transforms each element by applying a function       | New array              | `sam1.map(val => val * 2)`<br>Output: `[24, 648, ...]` | `(currentValue, index, array)`<br>Only **transforms** each element                                           | **No control flow**: Can’t use `break/continue`. Skips holes in sparse arrays.                     |
+| **`filter()`**   | Filters elements based on a condition                | New filtered array     | `sam1.filter(val => val > 100)`<br>Output: `[324, ...]` | `(currentValue, index, array)`<br>Only **retains** elements that match condition                            | **Does not mutate** original array. Returns filtered results.                                      |
+| **`reduce()`**   | Reduces array to a single value by accumulation      | Single value           | `sam1.reduce((acc, val) => acc + val, 0)`<br>Output: `823` | `(accumulator, currentValue, index, array)`<br>**Accumulates** values based on a reducer function            | Initial value (second param) is optional but required for an empty array. Returns **single value**. |
+| **`find()`**     | Finds the first element that matches a condition     | First matching element | `sam1.find(val => val > 300)`<br>Output: `324`        | `(currentValue, index, array)`<br>Stops after the **first match**                                           | Returns **only one** value. Stops once a match is found.                                            |
+| **`findIndex()`**| Finds the index of the first matching element        | Index of element       | `sam1.findIndex(val => val / 2 === 171)`<br>Output: `2` | `(currentValue, index, array)`<br>Stops after **first matching index**                                      | **Returns index** instead of the value. Useful for complex conditions.                              |
+| **`some()`**     | Checks if **at least one** element satisfies a condition | Boolean              | `sam1.some(val => val > 100)`<br>Output: `true`      | `(currentValue, index, array)`<br>Stops if **any one** element passes the test                              | **Stops early** if condition is met. Similar to `||` in logic.                                     |
+| **`every()`**    | Checks if **all** elements satisfy a condition       | Boolean                | `sam1.every(val => val > 100)`<br>Output: `false`    | `(currentValue, index, array)`<br>Continues until **all** pass the test                                     | **Stops early** if condition is not met. Similar to `&&` in logic.                                 |
+| **`flat()`**     | Flattens nested arrays                               | Flattened array        | `[[[1,3,4]],5].flat(2)`<br>Output: `[1, 3, 4, 5]`    | N/A (no callback)                                                                                          | **Levels of depth** (argument) determine how deep it flattens.                                      |
+| **`sort()`**     | Sorts array based on strings/numbers                 | Sorted array           | `[3,1,2].sort()`<br>Output: `[1,2,3]` (ascending)    | `(a, b)`<br>**Compares** two elements at a time. `a - b` for ascending, `b - a` for descending              | By default, sorts **strings lexicographically**. Use custom comparator for numbers.                 |
+
+---
+
+### Key Concepts
+
+- **Callback Parameters**: Most array methods take a callback function, which receives parameters such as the current element, index, and the array being processed.
+- **Transformation vs Filtering**: `map()` transforms every element, whereas `filter()` keeps only elements that satisfy the condition.
+- **Control Flow**: Methods like `map()`, `filter()`, and `reduce()` avoid control flow mechanisms (like `break`), focusing on functional programming.
+  
+### More Array Creation and Manipulation
+
+| **Method**       | **Description**                                      | **Example**                        | **Callback Parameters**                             | **Unique Features & Important Concepts**                                                         |
+|------------------|------------------------------------------------------|------------------------------------|----------------------------------------------------|---------------------------------------------------------------------------------------------------|
+| **`Array.from()`**| Creates an array from a sequence                    | `Array.from({length: 7}, (_, i) => i + 1)`<br>Output: `[1, 2, ..., 7]` | `(currentValue, index)` | Useful for creating arrays from **array-like objects** (e.g., NodeLists) or sequences.             |
+| **`fill()`**     | Fills array with a specific value                    | `x.fill(1)`<br>Output: `[1, 1, 1, 1]` | N/A                                               | Modifies the **existing array**, unlike most array methods that return a new array.               |
+| **`flatMap()`**  | Maps each element and flattens the result            | `[1, 2, [3]].flatMap(x => [x, x])`<br>Output: `[1, 1, 2, 2, 3, 3]` | `(currentValue, index, array)` | Combines **mapping** and **flattening** in one step, with a flat level of **1**.                   |
+| **`new Array()`**| Creates an empty array of a fixed length             | `new Array(7)`<br>Output: `[<7 empty items>]` | N/A | Creates sparse arrays; useful for initializing arrays with a fixed size.                           |
+
+---
+
+### Additional Notes:
+
+- **Illegal Break**: The `map()` method doesn’t support `break` because it is designed for functional programming, focusing on data transformation.
+- **Sparse Arrays**: Methods like `map()` and `filter()` skip "holes" in sparse arrays (e.g., `[1, , 3]`).
+  
+```js
+const sam2 = sam1.filter(val => val > 100);  // [324, 342, 122]
+const sam3 = sam1.map(val => val > 100 ? val : null);  // [null, 324, 342, null, 122]
+```
+
+</details>
